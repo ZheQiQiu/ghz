@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghz.bean.repository.DistEnterBossDataMapper">
+    <resultMap id="BaseResultMap" type="com.ghz.bean.DistEnterBossData">
+        <result column="boss_id" jdbcType="INTEGER" property="bossId"/>
+        <result column="round" jdbcType="INTEGER" property="round"/>
+        <result column="current_num" jdbcType="INTEGER" property="currentNum"/>
+        <result column="current_hp" jdbcType="INTEGER" property="currentHp"/>
+        <result column="max_hp" jdbcType="INTEGER" property="maxHp"/>
+        <result column="start_date" jdbcType="DATE" property="startDate"/>
+    </resultMap>
+    <select id="selectCurrentBossData" resultMap="BaseResultMap">
+        select
+               b.id boss_id,bl.round round,bl.current_num current_num,b.current_hp current_hp,b.max_hp max_hp,bl.start_date start_date
+        from
+             ghz_data gd,boss b,boss_list bl
+        where
+              bl.current_num=b.ordered
+          and
+              gd.id=1
+          and
+              gd.current_boss_list=bl.id;
+    </select>
+</mapper>

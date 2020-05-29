@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ghz.bean.repository.DistKnifeDataMapper">
+    <resultMap id="BaseResultMap" type="com.ghz.bean.DistKnifeData">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+        <result column="damage" jdbcType="INTEGER" property="damage" />
+        <result column="round" jdbcType="INTEGER" property="round" />
+        <result column="ordered" jdbcType="INTEGER" property="bossOrdered" />
+        <result column="date" jdbcType="VARCHAR" property="date" />
+    </resultMap>
+    <select id="selectAllDistKnifeData" resultMap="BaseResultMap">
+        select kd.id id,m.nick_name nick_name,kd.damage damage,kd.round round,b.ordered ordered,kd.date date from ghz_data gd,boss b,knife_data kd,member m where gd.id=1 and gd.current_boss_list=b.list_id and kd.boss_id=b.id and kd.member_id=m.id order by kd.id desc
+    </select>
+</mapper>

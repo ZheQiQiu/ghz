@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+</head>
+<body>
+<div style="margin: 10px">
+    <br>
+    <div align="left">
+        <button class="layui-btn layui-btn-lg layui-btn-danger" id="addMemberBTN">
+            添加成员
+        </button>
+    </div><br>
+    <table class="layui-hide" id="members_table" lay-filter="members_table"></table>
+</div>
+<script src="/layui/layui.js" charset="utf-8"></script>
+<script type="text/html" id="handle">
+      <a class="layui-btn layui-btn-xs" lay-event="edit">
+       <i class="layui-icon layui-icon-edit">编辑</i>
+      </a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">
+        <i class="layui-icon layui-icon-delete">删除</i>
+    </a>
+</script>
+<script>
+    layui.use(['table','layer','form'], function(){
+        var table = layui.table,
+            $ = layui.jquery;
+
+        table.render({
+            elem: '#members_table'
+            ,url:'/enter/getAllMembers'
+            ,cellMinWidth: 80 //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+            ,page: false
+            ,cols: [[
+                {field:'id', width:60, title: 'ID', sort: true}
+                ,{field:'numberId', width:180, title: '游戏内数字ID'}
+                ,{field:'nickName', title: '昵称', sort: true}
+                // ,{field:'sign', title: '签名', width: '30%', minWidth: 100} //minWidth：局部定义当前单元格的最小宽度，layui 2.2.1 新增
+                ,{align:'center', width:160, title: '操作',toolbar: '#handle'}
+            ]]
+        });
+
+        var membersTableReload = function(){
+            table.reload('members_table',{
+                url:'/enter/getAllMembers'
+            });
+        }
+
+        $('#addMemberBTN').on('click', function()
+        {
+            layer.open
+            ({
+                type: 1 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                ,title: '添加成员'
+                ,area: ['350px', '300px']
+                ,shadeClose: true //点击遮罩关闭
+                ,skin: 'layui-layer-rim' //加上边框
+                ,shade: 0.3
+                ,offset: 'auto'
+                ,maxmin: true
+                ,content: $("#addMemberDiv")//引用的弹出层的页面层的方式加载修改界面表单
+                ,zIndex: layer.zIndex //重点1
+                ,success: function(layero)
+                {
+                    $("#nickName").val('');
+                    $("#numberId").val('');
+                    layer.setTop(layero); //重点2
+                }
+            });
+            addMember();
+        });
+
+        function addMember() {
+            layui.form.on('submit(addMemberButton)', function(massage){
+                layer.load(2);
+                $.ajax({
+                    type: "POST",
+                    url: "/enter/addMember",
+                    data: JSON.stringify({
+                        "numberId":$('#numberId').val(),
+                        "nickName":$('#nickName').val()
+                    }),
+                    contentType:'application/json',
+                    dataType: "json",
+                    success: (data) => {
+                        layer.closeAll();
+                        membersTableReload();
+                        layer.msg(data.msg);
+                    },
+                    error: () => {
+                        layer.closeAll();
+                        layer.msg("请求发送失败！",{icon: 5});
+                    }
+                });
+
+            });
+        }
+
+        table.on('tool(members_table)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的要删除吗？',function (index) {
+                    $.ajax({
+                        type: "POST",
+                        url: "/enter/deleteMember",
+                        contentType:'application/json',
+                        data: JSON.stringify({"id": data.id}),
+                        dataType: "json",
+                        success: function(data){
+                            layer.closeAll();
+                            if(data.code === 0){
+                                obj.del();
+                                layer.msg(data.msg, {icon: 6});
+                            }else
+                            {
+                                layer.msg(data.msg, {icon: 5});
+                            }
+                        },
+                        error: function(data)
+                        {
+                            layer.msg("删除失败：" + data, {icon: 5});
+                        }
+                    });
+
+                });
+            } else if(obj.event === 'edit'){
+                layer.open
+                ({
+                    type: 1 //layer提供了5种层类型。可传入的值有：0（信息框，默认）1（页面层）2（iframe层）3（加载层）4（tips层）
+                    ,title: 'id=' + data.id
+                    ,area: ['350px', '400px']
+                    ,shadeClose: true //点击遮罩关闭
+                    ,skin: 'layui-layer-rim' //加上边框
+                    ,shade: 0.3
+                    ,offset: 'auto'
+                    ,maxmin: true
+                    ,content: $("#updateMemberDiv")//引用的弹出层的页面层的方式加载修改界面表单
+                    ,zIndex: layer.zIndex //重点1
+                    ,success: function(layero)
+                    {
+                        $('#updateMemberIdInput').val(data.id);
+                        $('#updateMemberNumberIdInput').val(data.numberId);
+                        $('#updateMemberNickNameInput').val(data.nickName);
+                        layer.setTop(layero); //重点2
+                    }
+                });
+            }
+        });
+
+        layui.form.on('submit(updateButton)',(message)=>{
+            layer.load(2);
+            $.ajax({
+                type: "POST",
+                url: "/user/updateMember",
+                contentType:'application/json',
+                data: JSON.stringify({
+                    "id": message.field.updateMemberIdInput,
+                    "numberId": message.field.updateMemberNumberIdInput,
+                    "nickName": message.field.updateMemberNickNameInput
+                }),
+                dataType: "json",
+                success: function(data){
+                    layer.closeAll();
+                    if(data.code === 0){
+                        layer.msg(data.msg, {icon: 6});
+                        membersTableReload();
+                    }else
+                    {
+                        layer.msg(data.msg, {icon: 5});
+                    }
+                },
+                error: function(data)
+                {
+                    layer.closeAll();
+                    layer.msg("修改失败：" + data, {icon: 5});
+                }
+            });
+        });
+    });
+</script>
+<div class="layui-form" lay-filter="" id="updateMemberDiv" style="padding: 20px 0 0 0;display:none;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">ID：</label>
+        <div class="layui-input-inline">
+            <input id="updateMemberIdInput" name="updateMemberIdInput" autocomplete="off" class="layui-input layui-disabled" disabled>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数字ID：</label>
+        <div class="layui-input-inline">
+            <input id="updateMemberNumberIdInput" name="updateMemberNumberIdInput" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称：</label>
+        <div class="layui-input-inline">
+            <input id="updateMemberNickNameInput" name="updateMemberNickNameInput" placeholder="必填" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top:20px">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="updateButton">确定</button>
+        </div>
+    </div>
+</div>
+<div class="layui-form" lay-filter="" id="addMemberDiv" style="padding: 20px 0 0 0;display:none;">
+    <div class="layui-form-item">
+        <label class="layui-form-label">昵称：</label>
+        <div class="layui-input-inline">
+            <input id="nickName" name="nickName" placeholder="必填" autocomplete="off" class="layui-input" lay-verify="required">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">数字ID：</label>
+        <div class="layui-input-inline">
+            <input id="numberId" name="numberId" autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item" style="margin-top:20px">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-submit" lay-submit="" lay-filter="addMemberButton">确定</button>
+        </div>
+    </div>
+</div>
+</body>
+</html>

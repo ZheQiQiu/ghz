@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ZH-cn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Login</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/css/login.css">
+</head>
+<body>
+<div class="kit-login">
+    <div class="kit-login-bg"></div>
+    <div class="kit-login-wapper">
+        <h2 class="kit-login-slogan">欢迎使用 <br> 公会战管理系统</h2>
+        <div class="kit-login-form">
+            <h4 class="kit-login-title">登录</h4>
+            <form class="layui-form">
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <i class="layui-icon">&#xe612;</i>
+                        <span class="kit-login-input">
+                <input type="text" id="username" name="username" required lay-verify="required" placeholder="请输入用户名"/>
+              </span>
+                    </div>
+                    <div class="kit-login-col"></div>
+                </div>
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <i class="layui-icon">&#xe64c;</i>
+                        <span class="kit-login-input">
+                <input type="password" id="password" name="password" required lay-verify="required" placeholder="请输入密码"/>
+              </span>
+                    </div>
+                    <div class="kit-login-col"></div>
+                </div>
+                <div class="kit-login-row">
+                    <div class="kit-login-col">
+                        <input type="checkbox" id="rememberMe" name="rememberMe" title="记住我" lay-skin="primary"/>
+                    </div>
+                </div>
+                <div class="kit-login-row">
+                    <button class="layui-btn kit-login-btn" lay-submit="submit" lay-filter="login">登录</button>
+                </div>
+                <div class="kit-login-row" style="margin-bottom:0;">
+                    <a href="javascript:;" style="color: rgb(153, 153, 153); text-decoration: none; font-size: 13px;" id="aboutUs">
+                        关于我们
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="/js/polyfill.min.js"></script>
+<script src="/layui/layui.js"></script>
+<script src="/js/sha512.min.js"></script>
+<script>
+    layui.use(['layer', 'form'], function()
+    {
+        var form = layui.form,
+            $ = layui.jquery;
+
+        $('#aboutUs').on('click', function()
+        {
+            layer.msg('开发者：quentina');
+        });
+
+        form.on('submit(login)', function(data)
+        {//异步提交
+            var username = $("#username").val();
+            var password = $("#password").val();
+
+            var password_sha512 = sha512(password);
+
+            $.ajax
+            ({
+                url:'user/login',
+                method:'post',
+                data:JSON.stringify({username: username, password: password_sha512}),
+                contentType:'application/json',
+                dataType:'JSON',
+                success:function(res)
+                {
+                    if(res.code === 0)
+                    {
+                        layer.msg(res.msg);
+                        setTimeout(function()
+                        {
+                            location.href = 'homePage';
+                        }, 500);
+                    }
+                    else
+                    {
+                        layer.msg(res.msg);
+                    }
+                },
+                error:function (data)
+                {
+                    layer.msg(data);
+                }
+            });
+
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

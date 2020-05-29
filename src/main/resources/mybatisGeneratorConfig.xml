@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+        PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+        "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+    <context id="ghz" targetRuntime="MyBatis3">
+        <jdbcConnection
+                driverClass="com.mysql.cj.jdbc.Driver"
+                connectionURL="jdbc:mysql://localhost:3306/ghz?serverTimezone=UTC&amp;useUnicode=true&amp;characterEncoding=UTF-8"
+                userId="root"
+                password="123456"
+        />
+        <javaModelGenerator
+                targetPackage="com.ghz.bean.mg"
+                targetProject="./src/main/java"
+        />
+        <sqlMapGenerator
+                targetPackage="mapping.mg"
+                targetProject="./src/main/resources"
+        />
+        <javaClientGenerator
+                type="XMLMAPPER"
+                targetPackage="com.ghz.bean.repository.mg"
+                targetProject="./src/main/java"
+        />
+        <table tableName="ghz_user" domainObjectName="User"/>
+        <table tableName="role" domainObjectName="Role"/>
+        <table tableName="boss" domainObjectName="Boss"/>
+        <table tableName="boss_list" domainObjectName="BossList"/>
+        <table tableName="ghz_data" domainObjectName="GhzData"/>
+        <table tableName="member" domainObjectName="Member"/>
+<!--        <table tableName="knife_data" domainObjectName="KnifeData"/>-->
+    </context>
+</generatorConfiguration>

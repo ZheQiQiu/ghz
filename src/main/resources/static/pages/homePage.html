@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>公会战管理系统</title>
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body class="layui-layout-body">
+<div class="layui-layout layui-layout-admin">
+    <div class="layui-header">
+        <div class="layui-logo">公会战管理系统</div>
+        <ul class="layui-nav layui-layout-left">
+            <li class="layui-nav-item">
+                <a href="/pages/systemMsg.html" target="option">
+                    <i class="layui-icon">&#xe667;</i>
+                    <span>系统消息</span>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/pages/userManagement.html" target="option">
+                    <i class="layui-icon">&#xe770;</i>
+                    <span>用户管理</span>
+                </a>
+            </li>
+            <li class="layui-nav-item">
+                <a href="/pages/memberManagement.html" target="option">
+                    <i class="layui-icon">&#xe770;</i>
+                    <span>成员管理</span>
+                </a>
+            </li>
+<!--            <li class="layui-nav-item">-->
+<!--                <a href="javascript:;">其它系统</a>-->
+<!--                <dl class="layui-nav-child">-->
+<!--                    <dd><a href="">邮件管理</a></dd>-->
+<!--                    <dd><a href="">消息管理</a></dd>-->
+<!--                    <dd><a href="">授权管理</a></dd>-->
+<!--                </dl>-->
+<!--            </li>-->
+        </ul>
+        <ul class="layui-nav layui-layout-right">
+            <li class="layui-nav-item">
+                <a href="javascript:;">
+                    <img src="http://t.cn/RCzsdCq" class="layui-nav-img" alt=""/>
+                    <span id="nickNameSpan"></span>
+                </a>
+                <dl class="layui-nav-child">
+                    <dd><a href="">基本资料</a></dd>
+                    <dd><a href="">安全设置</a></dd>
+                </dl>
+            </li>
+            <li class="layui-nav-item"><a href="">退了</a></li>
+        </ul>
+    </div>
+
+    <div class="layui-side layui-bg-black">
+        <div class="layui-side-scroll">
+            <!-- 左侧导航区域（可配合layui已有的垂直导航） -->
+            <ul class="layui-nav layui-nav-tree"  lay-filter="test">
+                <li class="layui-nav-item layui-nav-itemed">
+                    <a class="" href="javascript:;">公会战数据</a>
+                    <dl class="layui-nav-child">
+                        <dd><a href="/pages/enterDataPage.html" target="option">数据录入</a></dd>
+                        <dd><a href="/pages/findDataPage.html" target="option">数据查询</a></dd>
+                        <dd><a href="/pages/knifeStatisticsPage.html" target="option">出刀统计</a></dd>
+                    </dl>
+                </li>
+<!--                <li class="layui-nav-item">-->
+<!--                    <a href="javascript:;">解决方案</a>-->
+<!--                    <dl class="layui-nav-child">-->
+<!--                        <dd><a href="javascript:;">列表一</a></dd>-->
+<!--                        <dd><a href="javascript:;">列表二</a></dd>-->
+<!--                        <dd><a href="">超链接</a></dd>-->
+<!--                    </dl>-->
+<!--                </li>-->
+<!--                <li class="layui-nav-item"><a href="">云市场</a></li>-->
+<!--                <li class="layui-nav-item"><a href="">发布商品</a></li>-->
+            </ul>
+        </div>
+    </div>
+
+    <div class="layui-body">
+        <iframe id="option" name="option" src="/pages/systemMsg.html" style="overflow: visible;" scrolling="yes" frameborder="no" width="100%" height="96%"></iframe>
+    </div>
+
+    <div class="layui-footer">
+        © 咸鱼养老院 --作者:quentina  当前版本：v1.0.0
+    </div>
+</div>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element,
+            $ = layui.jquery;
+        $.ajax
+        ({
+            url:'user/getNickName',
+            type: "GET",
+            dataType: "JSON",
+            success: (res) => {
+                if(res.code === 0)
+                {
+                    document.getElementById("nickNameSpan").innerText = res.data;
+                }
+            }
+        });
+    });
+</script>
+</body>
+</html>
