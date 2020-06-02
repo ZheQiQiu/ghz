@@ -328,7 +328,11 @@ public class EnterServiceImpl implements EnterService {
                     akd.setBossId(ordered2BossId.get(aboveBossData.getCurrentNum()));
                     akd.setOrdered(aboveBossData.getCurrentNum());
                     akd.setDate(mse.getDate());
-                    akd.setDamage(bossData.getCurrentNum().equals(aboveBossData.getCurrentNum()) && bossData.getRound().equals(aboveBossData.getRound()) ? aboveBossData.getCurrentHp() - bossData.getCurrentHp() : aboveBossData.getCurrentHp());
+                    try {
+                        akd.setDamage(bossData.getCurrentNum().equals(aboveBossData.getCurrentNum()) && bossData.getRound().equals(aboveBossData.getRound()) ? aboveBossData.getCurrentHp() - bossData.getCurrentHp() : aboveBossData.getCurrentHp());
+                    } catch (NullPointerException e) {
+                        throw new GhzException(480,"聊天记录不完整");
+                    }
                     if (!knifeDataCollisionInList(akd, kdsDb)) {
                         akds.add(akd);
                     }
@@ -456,6 +460,10 @@ public class EnterServiceImpl implements EnterService {
                     mse.getText().add(str);
                 }
             }
+        }
+
+        if(mse != null){
+            res.add(mse);
         }
 
         return res;
