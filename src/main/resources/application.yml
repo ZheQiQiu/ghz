@@ -6,7 +6,7 @@ server:
     uri-encoding: UTF-8 #URL字符编码
   servlet:
     session:
-      timeout: 30m #session生命周期
+      timeout: 1440m #session生命周期
     encoding:
       force: true
       enabled: true
@@ -18,7 +18,7 @@ spring:
       prefix: /pages/
       suffix: .html
   datasource:
-    url: jdbc:mysql://localhost:3306/ghz?serverTimezone=UTC&useUnicode=true&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/ghz?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=UTF-8
     username: root
     password: 7ujMko0admin123*
 #    password: 123456
