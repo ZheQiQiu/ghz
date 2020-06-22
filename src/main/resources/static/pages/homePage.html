@@ -6,6 +6,8 @@
     <title>公会战管理系统</title>
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="stylesheet" href="/layui/css/layui.css">
+    <link rel="stylesheet" href="/live2d/css/live2d.css">
+    <script type="text/javascript" src="/live2d/js/jquery-3.4.1.min.js"></script>
 </head>
 <body class="layui-layout-body">
 <div class="layui-layout layui-layout-admin">
@@ -106,6 +108,17 @@
             }
         });
     });
+</script>
+<script type="text/javascript">
+    var message_Path = '/live2d/';
+    var home_Path = 'https://haremu.com/';
+</script>
+<script type="text/javascript" src="/live2d/js/live2d.js"></script>
+<script type="text/javascript" src="/live2d/js/message.js"></script>
+<script type="text/javascript">
+    window.onload=function(){
+        loadlive2d("live2d", "/live2d/model/tia/model.json");
+    }
 </script>
 </body>
 </html>

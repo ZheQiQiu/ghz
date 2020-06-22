@@ -11,7 +11,7 @@
  Target Server Version : 50728
  File Encoding         : 65001
 
- Date: 29/05/2020 16:18:28
+ Date: 22/06/2020 15:22:10
 */
 
 SET NAMES utf8mb4;
@@ -23,10 +23,10 @@ SET FOREIGN_KEY_CHECKS = 0;
 DROP TABLE IF EXISTS `boss`;
 CREATE TABLE `boss`  (
   `id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `current_hp` int(4) NOT NULL,
-  `max_hp` int(4) NOT NULL,
+  `current_hp` int(8) NOT NULL,
+  `max_hp` int(8) NOT NULL,
   `list_id` int(8) UNSIGNED ZEROFILL NOT NULL,
-  `ordered` int(4) NOT NULL,
+  `ordered` int(8) NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `list_id`(`list_id`) USING BTREE,
   CONSTRAINT `boss_ibfk_1` FOREIGN KEY (`list_id`) REFERENCES `boss_list` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
@@ -38,9 +38,9 @@ CREATE TABLE `boss`  (
 DROP TABLE IF EXISTS `boss_list`;
 CREATE TABLE `boss_list`  (
   `id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `round` int(4) NOT NULL,
-  `current_num` int(4) NOT NULL,
-  `total_num` int(4) NOT NULL,
+  `round` int(8) NOT NULL,
+  `current_num` int(8) NOT NULL,
+  `total_num` int(8) NOT NULL,
   `start_date` date NOT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
@@ -63,10 +63,10 @@ CREATE TABLE `ghz_data`  (
 DROP TABLE IF EXISTS `ghz_user`;
 CREATE TABLE `ghz_user`  (
   `id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `password_sha512` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `password_sha512` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
@@ -79,7 +79,7 @@ CREATE TABLE `knife_data`  (
   `member_id` int(8) UNSIGNED ZEROFILL NOT NULL,
   `damage` int(8) NOT NULL,
   `boss_id` int(8) UNSIGNED ZEROFILL NOT NULL,
-  `round` int(5) NOT NULL,
+  `round` int(8) NOT NULL,
   `date` date NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE,
   INDEX `member_id`(`member_id`) USING BTREE,
@@ -94,10 +94,10 @@ CREATE TABLE `knife_data`  (
 DROP TABLE IF EXISTS `member`;
 CREATE TABLE `member`  (
   `id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `number_id` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `nick_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `number_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
+  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for role
@@ -105,8 +105,8 @@ CREATE TABLE `member`  (
 DROP TABLE IF EXISTS `role`;
 CREATE TABLE `role`  (
   `id` int(8) UNSIGNED ZEROFILL NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 

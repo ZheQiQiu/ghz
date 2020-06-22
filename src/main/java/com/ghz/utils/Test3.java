@@ -13,9 +13,10 @@ public class Test3 {
         list.add("ddd1e3aaa");
         list.add("aaa1eee");
 
-        List<String> list2 = list.stream().filter(a-> a.matches("^.*123.*")).collect(Collectors.toList());
-
+        List<String> list2 = list.subList(0,2);
+        list2.set(0,"123456");
         System.out.println(list2);
+        System.out.println(list);
 
     }
 }
