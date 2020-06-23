@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.ghz</groupId>
     <artifactId>ghz</artifactId>
-    <version>1.0.0.1001</version>
+    <version>1.0.0.1002</version>
     <name>demo</name>
     <description>Demo project for Spring Boot</description>
 
