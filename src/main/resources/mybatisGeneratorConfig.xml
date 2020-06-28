@@ -9,7 +9,9 @@
                 connectionURL="jdbc:mysql://localhost:3306/ghz?serverTimezone=Asia/Shanghai&amp;useUnicode=true&amp;characterEncoding=UTF-8"
                 userId="root"
                 password="123456"
-        />
+        >
+            <property name="nullCatalogMeansCurrent" value="true"/>
+        </jdbcConnection>
         <javaModelGenerator
                 targetPackage="com.ghz.bean.mg"
                 targetProject="./src/main/java"
