@@ -28,6 +28,9 @@ public class MemberSpeakEntry {
         memberId = Integer.parseInt(arr[0]);
         try {
             date = new SimpleDateFormat("yyyy/MM/dd").parse(arr[1]);
+            if(Integer.parseInt(new SimpleDateFormat("HH").format(new Date())) < 5){
+                date = new Date(date.getTime()-3600*24*1000);
+            }
         } catch (ParseException e) {
             e.printStackTrace();
         }

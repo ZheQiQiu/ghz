@@ -138,3 +138,11 @@
   padding-left: 25px;
   font-size: 13px;
 }
+
+.kit-login-bottom{
+  left: 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  z-index: 100;
+}

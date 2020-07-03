@@ -139,7 +139,7 @@
         laydate.render({
             elem: '#knifeDate',
             format: 'yyyy/MM/dd',
-            value: new Date()
+            value: new Date().getHours()<5?new Date(new Date().getTime() - 3600*24*1000):new Date()
         });
 
         //获取Element对象
